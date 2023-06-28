@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width">
+  <title>MathJax v3 loaded only if there is math</title>
+
+  <script src="customJax.js"></script>
+
+  <script> addEventListener('DOMContentLoaded', (event) => {
+      convertcdn();
+      convert();
+    });
+  </script>
+
+</head>
+
+<body>
+
+  <p id="title">
+    <div>
+      This is math: $x+1\over x-1$
+    </div>
+  </p>
+
+  <div id="dsDescription">
+    <b>
+      <div>
+        1) \(ax^2 + bx + c = 0\)
+      </div>
+    </b>
+  </div>
+
+  <b id="metadata_title">
+    <ol>
+      <li> <div> $a \ne 0$ </div> </li>
+      <li> <div> \(ax^2 + bx + c = 0\) </div> </li>
+    </ol>
+  </b>
+
+  <table>
+    <tr id="metadata_dsDescription">
+      <td>
+        <div>
+          3) $$x = {-b \pm \sqrt{b^2-4ac} \over 2a}.$$
+        </div>
+      </td>
+    </tr>
+  </table>
+
+</body>
+
+</html>
