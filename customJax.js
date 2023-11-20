@@ -1,4 +1,4 @@
-var arr = ["title", "dsDescription", "metadata_title", "metadata_dsDescription"]; // HTML ids that we need to process
+var arr = ["title", "dsDescription", "metadata_title", "metadata_dsDescription", "resultsTable"]; // HTML ids that we need to process
 MathJax = {
   tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] }, //to make tex work
   startup: {

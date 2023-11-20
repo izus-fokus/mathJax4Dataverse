@@ -2,13 +2,10 @@
 <body>
     <div id="custom-footer">
         <script>
-            var elem = document.querySelector('meta[name="DC.type"]')
-            var doctype = elem ? elem.content : "";
-            if (doctype == "Dataset") {
                 document.addEventListener('DOMContentLoaded', () => {
                     // Add your code here
 
-                    var arr = ["title", "dsDescription", "metadata_title", "metadata_dsDescription"]; // HTML ids that we need to process
+                    var arr = ["title", "dsDescription", "metadata_title", "metadata_dsDescription", "resultsTable"]; // HTML ids that we need to process
                     MathJax = {
                         tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] }, //to make tex work
                         startup: {
@@ -60,7 +57,6 @@
                     convertcdn();
                     convert();
                 });
-            }
         </script>
     </div>
 </body>
