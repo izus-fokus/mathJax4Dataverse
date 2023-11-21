@@ -1,63 +1,90 @@
-<html>
-<body>
     <div id="custom-footer">
-        <script>
-                document.addEventListener('DOMContentLoaded', () => {
-                    // Add your code here
 
-                    var arr = ["title", "dsDescription", "metadata_title", "metadata_dsDescription", "resultsTable"]; // HTML ids that we need to process
-                    MathJax = {
-                        tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] }, //to make tex work
-                        startup: {
-                            pageReady: () => {
-                                // alert('Running MathJax');
-                                return MathJax.startup.defaultPageReady();
-                            }
-                        },
-                        options: {
-                            ignoreHtmlClass: '.*',  //All other classes apart from processHtml class will be ignored by matjax
-                            processHtmlClass: 'enable-math-processing' , //html class 'enable-math-processing' with that will be processed by mathjax
-                        }
-                    };
+    <!--  math plugin -->
+    <script>
+      var arr = ["title", "dsDescription", "metadata_title", "metadata_dsDescription", "resultsTable"]; // HTML ids that we need to process
+MathJax = {
+  tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] }, //to make tex work
+  startup: {
+    pageReady: () => {
+      // alert('Running MathJax');
+      return MathJax.startup.defaultPageReady();
+    }
+  },
+  options: {
+    ignoreHtmlClass: '.*',  //All other classes apart from processHtml class will be ignored by matjax
+    processHtmlClass: 'enable-math-processing' , //html class 'enable-math-processing' with that will be processed by mathjax
+  }
+};
+function convertcdn() { //importing mathjax script cdn 
+  var script = document.createElement('script');
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+  // script.async = true;
+  document.body.appendChild(script);
+};
 
-                    function convertcdn() { //importing mathjax script cdn
-                        var script = document.createElement('script');
-                        script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
-                        // script.async = true;
-                        document.body.appendChild(script);
-                    };
+function addDescendantsToOutput(elem , output) { //adding all child elements to the set
+  for (let child of elem.children) {
+    console.log("Child: " + child)
+    output.add(child);
+    addDescendantsToOutput(child, output);
+  }
+}
 
-                    function addDescendantsToOutput(elem , output) { //adding all child elements to the set
-                        for (let child of elem.children) {
-                            //console.log("Child: " + child)
-                            output.add(child);
-                            addDescendantsToOutput(child, output);
-                        }
-                    }
+function convert() { //adding "enable-math-processing" to HTML elements with id stored in arr
+  
+    let output = new Set(); 
+    for (id of arr) { 
+      let elem = document.getElementById(id);  
+      if(elem != null){ //adding required elements to set
+        output.add(document.getElementById(id)); 
+        addDescendantsToOutput(elem, output);
 
-                    function convert() { //adding "enable-math-processing" to HTML elements with id stored in arr
+    }
+  }
+  
+    for (out of output) { //adding "enable-math-processing" to required elements
+      //console.log(out)
+      out.classList.add('enable-math-processing');
+    //  / console.log(out)
+    }
+  
+  }
+    </script>
 
-                        let output = new Set();
-                        for (id of arr) {
-                            let elem = document.getElementById(id);
-                            if(elem != null) { //adding required elements to set
-                                output.add(document.getElementById(id));
-                                addDescendantsToOutput(elem, output);
-                            }
-                        }
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+           
+            // math plugin
+            convertcdn();
+            convert();
 
-                        for (out of output) { //adding "enable-math-processing" to required elements
-                            //console.log(out)
-                            out.classList.add('enable-math-processing');
-                            //console.log(out)
-                        }
+        });
+    </script>
 
-                    }
-                    //console.log("Hello from math-plugin EventListener!")
-                    convertcdn();
-                    convert();
-                });
-        </script>
+    <script>
+        // Select the target node to observe
+        var targetNode = document.querySelector("#datasetForm");
+
+        // Create an observer instance
+        var observer = new MutationObserver(function (mutations) {
+            mutations.forEach(function (mutation) {
+                if (mutation.addedNodes.length > 0) {
+                    // New elements have been added to the page, typeset them with MathJax
+                    MathJax.typesetPromise().then(function () {
+                        convert()
+                        console.log("MathJax typesetting complete");
+                    }).catch(function (err) {
+                        console.log("MathJax typesetting failed:", err);
+                    });
+                }
+            });
+        });
+
+        // Configuration of the observer
+        var config = { childList: true };
+
+        // Start observing the target node
+        observer.observe(targetNode, config);
+    </script>
     </div>
-</body>
-</html>
